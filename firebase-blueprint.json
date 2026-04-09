@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "DailyReport": {
+      "title": "Daily Report",
+      "description": "A daily construction progress report including personnel, financials, and task progress.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date", "description": "The date of the report" },
+        "weather": {
+          "type": "object",
+          "properties": {
+            "morning": { "type": "string" },
+            "afternoon": { "type": "string" },
+            "evening": { "type": "string" }
+          }
+        },
+        "personnel": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer" },
+            "details": { "type": "object" }
+          }
+        },
+        "financials": {
+          "type": "object",
+          "properties": {
+            "contractValue": { "type": "number" },
+            "temporaryOutput": { "type": "number" },
+            "remainingValue": { "type": "number" }
+          }
+        },
+        "civilItems": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "equipmentItems": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "dailyTasks": { "type": "array", "items": { "type": "string" } },
+        "nextDayPlan": { "type": "array", "items": { "type": "string" } },
+        "issues": { "type": "array", "items": { "type": "string" } },
+        "proposals": { "type": "array", "items": { "type": "string" } },
+        "photos": { "type": "array", "items": { "type": "string" }, "description": "Up to 10 field photo URLs" },
+        "authorUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "authorUid", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/reports/{reportId}": {
+      "schema": "DailyReport",
+      "description": "Collection of daily reports"
+    }
+  }
+}

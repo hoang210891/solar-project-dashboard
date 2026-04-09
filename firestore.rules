@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: reports
+    // Document ID: auto-generated
+    // Fields:
+    //   - date: string (ISO date)
+    //   - weather: map { morning: string, afternoon: string, evening: string }
+    //   - personnel: map { total: int, details: map }
+    //   - financials: map { contractValue: number, temporaryOutput: number, remainingValue: number }
+    //   - civilItems: list of maps
+    //   - equipmentItems: list of maps
+    //   - dailyTasks: list of strings
+    //   - nextDayPlan: list of strings
+    //   - issues: list of strings
+    //   - proposals: list of strings
+    //   - photos: list of strings (max 10)
+    //   - authorUid: string
+    //   - createdAt: timestamp
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.authorUid;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "hoang210891@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidReport(data) {
+      return data.keys().hasAll(['date', 'authorUid', 'createdAt']) &&
+             data.date is string &&
+             data.authorUid is string &&
+             data.createdAt is timestamp &&
+             (!('photos' in data) || (data.photos is list && data.photos.size() <= 10));
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /reports/{reportId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidReport(request.resource.data) && request.resource.data.authorUid == request.auth.uid;
+      allow update: if (isDocOwner() || isAdmin()) && isValidReport(request.resource.data) && request.resource.data.authorUid == resource.data.authorUid;
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+  }
+}

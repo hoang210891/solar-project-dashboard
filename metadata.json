@@ -1,0 +1,5 @@
+{
+  "name": "Solar Project Dashboard",
+  "description": "Ứng dụng quản lý báo cáo ngày và dashboard trực quan cho dự án điện mặt trời. Hỗ trợ theo dõi tiến độ, sản lượng và cập nhật hình ảnh hiện trường.",
+  "requestFramePermissions": []
+}
