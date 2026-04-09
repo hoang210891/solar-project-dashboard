@@ -3,14 +3,13 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 const firebaseConfig = {
-  apiKey: import.meta.env.AIzaSyCyE7NcLjZHj3EtTYb2LXZkm2-KmxGx-ZE,
-  authDomain: import.meta.env.solar-project-dashboard-3d79d.firebaseapp.com,
-  projectId: import.meta.env.solar-project-dashboard-3d79d,
-  storageBucket: import.meta.env.solar-project-dashboard-3d79d.firebasestorage.app,
-  messagingSenderId: import.meta.env.191105004623,
-  appId: import.meta.env.1:191105004623:web:7ce083629c6427bd0aa63a,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
-
 let db: any;
 let auth: any;
 let storage: any;
