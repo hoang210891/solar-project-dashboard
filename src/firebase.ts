@@ -2,7 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import firebaseConfig from '../firebase-applet-config.json';
+const firebaseConfig = {
+  apiKey: import.meta.env.AIzaSyCyE7NcLjZHj3EtTYb2LXZkm2-KmxGx-ZE,
+  authDomain: import.meta.env.solar-project-dashboard-3d79d.firebaseapp.com,
+  projectId: import.meta.env.solar-project-dashboard-3d79d,
+  storageBucket: import.meta.env.solar-project-dashboard-3d79d.firebasestorage.app,
+  messagingSenderId: import.meta.env.191105004623,
+  appId: import.meta.env.1:191105004623:web:7ce083629c6427bd0aa63a,
+};
 
 let db: any;
 let auth: any;
